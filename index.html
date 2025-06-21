@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TECH-PE</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter&family=Roboto&family=Poppins&family=Merriweather&family=Caveat&family=Patrick+Hand&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+  <style>
+    :root {
+      --font: 'Inter', sans-serif;
+      --primary: #2563eb;
+      --secondary: #1e3a8a;
+      --bg: #f7f9fc;
+    }
+
+    body {
+      font-family: var(--font);
+      padding: 20px;
+      max-width: 1000px;
+      margin: auto;
+      background-color: var(--bg);
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--secondary);
+      font-size: 2.5rem;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+      margin-bottom: 25px;
+    }
+
+    .input-group, .template-select {
+      margin-bottom: 16px;
+    }
+
+    label {
+      font-weight: 600;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    .stealth-input {
+      all: unset;
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #1e3a8a;
+      border-bottom: 2px dashed #ccc;
+      width: 100%;
+      padding: 4px 0;
+      caret-color: auto;
+    }
+
+    select {
+      padding: 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 1rem;
+      background-color: #fff;
+    }
+
+    button {
+      padding: 12px 20px;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin: 8px 8px 20px 0;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    button:hover {
+      background-color: #1d4ed8;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    th, td {
+      border: 1px solid #d1d5db;
+      padding: 12px;
+      text-align: center;
+      font-size: 1rem;
+    }
+
+    td input {
+      all: unset;
+      display: block;
+      width: 100%;
+      text-align: center;
+      font: inherit;
+      color: inherit;
+      caret-color: auto;
+    }
+
+    canvas {
+      margin-top: 30px;
+      background: white;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.05);
+    }
+
+    .theme-template1 th { background: linear-gradient(to right, #6366f1, #3b82f6); color: white; }
+    .theme-template2 { background-color: #111827; color: white; }
+    .theme-template2 th { background-color: #1f2937; }
+    .theme-template2 td input { color: white; }
+    .theme-template3 th { background-color: #34d399; color: black; }
+    .theme-template4 th { background-color: #fb923c; color: black; }
+    .theme-template5 th { background-color: #e5e7eb; color: #111827; }
+    .theme-template6 th { background-color: #f472b6; color: white; }
+    .theme-template7 th { background-color: #f9fafb; border: 2px solid #d1d5db; color: #374151; }
+    .theme-template8 th { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(5px); color: #1e3a8a; }
+    .theme-template9 th, .theme-template9 td { border: 2px double #333; }
+    .theme-template10 tbody tr:hover { background-color: #e0f2fe; box-shadow: 0 0 8px rgba(0,0,0,0.1); }
+  </style>
+</head>
+
+<body>
+  <h1>TECH-PE</h1>
+
+  <div class="card">
+    <div class="input-group">
+      <label for="lineName">Line Name:</label>
+      <input type="text" id="lineName" class="stealth-input" placeholder="Enter Line Name" />
+    </div>
+
+    <div class="template-select">
+      <label for="template">Select Table Template:</label>
+      <select id="template" onchange="changeTemplate(this.value)">
+        <option value="template1">Blue Gradient</option>
+        <option value="template2">Dark Mode</option>
+        <option value="template3">Green Light</option>
+        <option value="template4">Orange Soft</option>
+        <option value="template5">Elegant Gray</option>
+        <option value="template6">Vibrant Pink</option>
+        <option value="template7">Minimalist</option>
+        <option value="template8">Glass Effect</option>
+        <option value="template9">Classic Borders</option>
+        <option value="template10">Shadowed Rows</option>
+      </select>
+    </div>
+
+    <div class="template-select">
+      <label for="font">Select Font:</label>
+      <select id="font" onchange="changeFont(this.value)">
+        <option value="'Inter', sans-serif">Inter</option>
+        <option value="'Roboto', sans-serif">Roboto</option>
+        <option value="'Poppins', sans-serif">Poppins</option>
+        <option value="'Merriweather', serif">Merriweather</option>
+        <option value="'Caveat', cursive">Caveat (Handwriting)</option>
+        <option value="'Patrick Hand', cursive">Patrick Hand</option>
+      </select>
+    </div>
+
+    <button onclick="addStation()">Add Station</button>
+    <button onclick="downloadTableAsImage()">Submit (Download PNG)</button>
+    <button onclick="plotGraph()">Plot Graph</button>
+
+    <div id="tableWrapper" class="theme-template1">
+      <div id="tableContainer">
+        <table id="stationTable">
+          <thead>
+            <tr>
+              <th>Station Name</th>
+              <th>Input</th>
+              <th>Retest</th>
+              <th>AAB</th>
+              <th>Retest %</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <canvas id="graphCanvas"></canvas>
+    </div>
+  </div>
+
+  <script>
+    const table = document.getElementById('stationTable');
+    let chartInstance = null;
+
+    function addStation() {
+      const tbody = table.querySelector('tbody');
+      const row = tbody.insertRow();
+      row.innerHTML = `
+        <td><input type="text" placeholder="Station Name"></td>
+        <td><input type="number" placeholder="Input" oninput="updateRetestPercent(this)"></td>
+        <td><input type="number" placeholder="Retest" oninput="updateRetestPercent(this)"></td>
+        <td><input type="number" placeholder="AAB"></td>
+        <td><span class="rr">0%</span></td>
+      `;
+    }
+
+    function updateRetestPercent(el) {
+      const row = el.closest('tr');
+      const inputs = row.querySelectorAll('input');
+      const inputVal = parseFloat(inputs[1]?.value);
+      const retestVal = parseFloat(inputs[2]?.value);
+      const rrSpan = row.querySelector('.rr');
+
+      if (!isNaN(inputVal) && inputVal > 0 && !isNaN(retestVal)) {
+        const rr = ((retestVal / inputVal) * 100).toFixed(2);
+        rrSpan.innerText = rr + '%';
+      } else {
+        rrSpan.innerText = '0%';
+      }
+    }
+
+    function downloadTableAsImage() {
+      const container = document.querySelector('#tableWrapper');
+      html2canvas(container, { scale: 3, useCORS: true }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'station_table.png';
+        link.href = canvas.toDataURL('image/png');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
+    }
+
+    function changeTemplate(template) {
+      const wrapper = document.getElementById('tableWrapper');
+      wrapper.className = 'theme-' + template;
+    }
+
+    function changeFont(font) {
+      document.body.style.fontFamily = font;
+      document.querySelectorAll('input').forEach(el => {
+        el.style.fontFamily = font;
+      });
+    }
+
+    function plotGraph() {
+      const rows = table.querySelectorAll('tbody tr');
+      const labels = [], inputData = [], retestData = [], aabData = [], rrData = [];
+
+      rows.forEach(row => {
+        const inputs = row.querySelectorAll('input');
+        const station = inputs[0]?.value.trim();
+        const input = parseFloat(inputs[1]?.value) || 0;
+        const retest = parseFloat(inputs[2]?.value) || 0;
+        const aab = parseFloat(inputs[3]?.value) || 0;
+
+        if (!station || input === 0) return;
+
+        const rr = ((retest / input) * 100).toFixed(2);
+
+        labels.push(station);
+        inputData.push(input);
+        retestData.push(retest);
+        aabData.push(aab);
+        rrData.push(parseFloat(rr));
+      });
+
+      if (labels.length === 0) return alert("Please enter valid station data before plotting.");
+
+      const ctx = document.getElementById('graphCanvas').getContext('2d');
+      if (chartInstance) chartInstance.destroy();
+
+      chartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [
+            { label: 'Input', data: inputData, backgroundColor: '#3b82f6' },
+            { label: 'Retest', data: retestData, backgroundColor: '#f59e0b' },
+            { label: 'AAB', data: aabData, backgroundColor: '#10b981' },
+            {
+              label: 'Retest %',
+              data: rrData,
+              type: 'line',
+              borderColor: '#ef4444',
+              backgroundColor: '#ef4444',
+              yAxisID: 'y1'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: { beginAtZero: true, title: { display: true, text: 'Count' } },
+            y1: {
+              beginAtZero: true,
+              position: 'right',
+              title: { display: true, text: 'Retest %' },
+              grid: { drawOnChartArea: false }
+            }
+          }
+        }
+      });
+    }
+  </script>
+</body>
+</html>
