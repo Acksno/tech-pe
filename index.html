@@ -2,659 +2,367 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Retest Tracker – Canva Code</title>
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Fonts for choices -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@400;600&family=Roboto:wght@400;700&family=Lato:wght@400;700&family=Nunito:wght@400;700&family=Merriweather:wght@400;700&family=Montserrat:wght@500;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
-  <!-- html2canvas for PNG export -->
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TECH-PE</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter&family=Roboto&family=Poppins&family=Merriweather&family=Caveat&family=Patrick+Hand&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
   <style>
-    .fade-in { animation: fadeIn .25s ease-out both; }
-    @keyframes fadeIn { from { opacity:0; transform: translateY(4px) } to { opacity:1; transform:none } }
-    /* Theme variables */
     :root {
-      --bg-from: #312e81; /* indigo-900 */
-      --bg-via: #0f172a;  /* slate-900 */
-      --bg-to: #000000;
-      --card-bg: rgba(255,255,255,0.05);
-      --card-border: rgba(255,255,255,0.10);
-      --text-primary: #e5e7eb;
-      --text-muted: #94a3b8;
-      --grid-line: rgba(255,255,255,0.12);
-      --input-bar: #14b8a6;
-      --retest-bar: #60a5fa;
+      --font: 'Inter', sans-serif;
+      --primary: #2563eb;
+      --secondary: #1e3a8a;
+      --bg: #f7f9fc;
     }
-    .theme-dark {
-      --bg-from: #312e81;
-      --bg-via: #0f172a;
-      --bg-to: #000000;
-      --card-bg: rgba(255,255,255,0.05);
-      --card-border: rgba(255,255,255,0.10);
-      --text-primary: #e5e7eb;
-      --text-muted: #94a3b8;
-      --grid-line: rgba(255,255,255,0.12);
+
+    body {
+      font-family: var(--font);
+      padding: 20px;
+      max-width: 1000px;
+      margin: auto;
+      background-color: var(--bg);
+      color: #333;
     }
-    .theme-light {
-      --bg-from: #f8fafc;
-      --bg-via: #f8fafc;
-      --bg-to: #f8fafc;
-      --card-bg: rgba(255,255,255,0.95);
-      --card-border: rgba(15,23,42,0.08);
-      --text-primary: #0f172a;
-      --text-muted: #475569;
-      --grid-line: rgba(15,23,42,0.12);
+
+    h1 {
+      text-align: center;
+      color: var(--secondary);
+      font-size: 2.5rem;
     }
-    .theme-ocean {
-      --bg-from: #0e7490; /* cyan-700 */
-      --bg-via: #0b4452;
-      --bg-to: #062a33;
-      --card-bg: rgba(9, 20, 26, 0.35);
-      --card-border: rgba(255,255,255,0.12);
-      --text-primary: #e6f1f5;
-      --text-muted: #b8d4dd;
-      --grid-line: rgba(255,255,255,0.15);
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+      margin-bottom: 25px;
     }
-    .theme-sunset {
-      --bg-from: #7c2d12; /* orange-900 */
-      --bg-via: #3f1f16;
-      --bg-to: #1b0f0b;
-      --card-bg: rgba(255,255,255,0.06);
-      --card-border: rgba(255,255,255,0.12);
-      --text-primary: #fff7ed;
-      --text-muted: #fed7aa;
-      --grid-line: rgba(255,247,237,0.2);
-      --input-bar: #fb923c;
-      --retest-bar: #60a5fa;
+
+    .input-group, .template-select {
+      margin-bottom: 16px;
     }
-    .theme-forest {
-      --bg-from: #064e3b; /* emerald-900 */
-      --bg-via: #052e24;
-      --bg-to: #031a14;
-      --card-bg: rgba(3,26,20,0.35);
-      --card-border: rgba(255,255,255,0.10);
-      --text-primary: #e7f8f0;
-      --text-muted: #a7f3d0;
-      --grid-line: rgba(231,248,240,0.18);
-      --input-bar: #10b981;
-      --retest-bar: #4f46e5;
+
+    label {
+      font-weight: 600;
+      margin-bottom: 5px;
+      display: block;
     }
-    .theme-mono {
-      --bg-from: #111827;
-      --bg-via: #0f172a;
-      --bg-to: #0b1220;
-      --card-bg: rgba(255,255,255,0.03);
-      --card-border: rgba(255,255,255,0.08);
-      --text-primary: #e5e7eb;
-      --text-muted: #9ca3af;
-      --grid-line: rgba(255,255,255,0.12);
-      --input-bar: #9ca3af;
-      --retest-bar: #6b7280;
+
+    .stealth-input {
+      all: unset;
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #1e3a8a;
+      border-bottom: 2px dashed #ccc;
+      width: 100%;
+      padding: 4px 0;
+      caret-color: auto;
     }
-    /* Card color applied via inline style hook */
-    [data-role="card"] {
-      background: var(--card-bg);
-      border-color: var(--card-border);
-      color: var(--text-primary);
+
+    select {
+      padding: 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 1rem;
+      background-color: #fff;
     }
-    .app-bg {
-      background-image: linear-gradient(to bottom, var(--bg-from), var(--bg-via), var(--bg-to));
+
+    button {
+      padding: 12px 20px;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin: 8px 8px 20px 0;
+      font-weight: 600;
+      font-size: 1rem;
     }
-    .text-muted { color: var(--text-muted); }
+
+    button:hover {
+      background-color: #1d4ed8;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    th, td {
+      border: 1px solid #d1d5db;
+      padding: 12px;
+      text-align: center;
+      font-size: 1rem;
+    }
+
+    td input {
+      all: unset;
+      display: block;
+      width: 100%;
+      text-align: center;
+      font: inherit;
+      color: inherit;
+      caret-color: auto;
+    }
+
+    canvas {
+      margin-top: 30px;
+      background: white;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.05);
+    }
+
+    .theme-template1 th { background: linear-gradient(to right, #6366f1, #3b82f6); color: white; }
+    .theme-template2 { background-color: #111827; color: white; }
+    .theme-template2 th { background-color: #1f2937; }
+    .theme-template2 td input { color: white; }
+    .theme-template3 th { background-color: #34d399; color: black; }
+    .theme-template4 th { background-color: #fb923c; color: black; }
+    .theme-template5 th { background-color: #e5e7eb; color: #111827; }
+    .theme-template6 th { background-color: #f472b6; color: white; }
+    .theme-template7 th { background-color: #f9fafb; border: 2px solid #d1d5db; color: #374151; }
+    .theme-template8 th { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(5px); color: #1e3a8a; }
+    .theme-template9 th, .theme-template9 td { border: 2px double #333; }
+    .theme-template10 tbody tr:hover { background-color: #e0f2fe; box-shadow: 0 0 8px rgba(0,0,0,0.1); }
   </style>
 </head>
-<body class="min-h-screen app-bg text-slate-100" style="font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Apple Color Emoji','Segoe UI Emoji';">
-  <div class="max-w-6xl mx-auto px-5 py-10">
-    <!-- Header -->
-    <header class="mb-6 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
-      <div>
-        <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">Retest Percentage Tracker</h1>
-        <p class="text-muted mt-2">Start with an empty table. Add stations. Retest % updates as you type.</p>
-      </div>
-      <div class="text-xs text-muted">A Canva Code creation</div>
-    </header>
 
-    <!-- Controls -->
-    <div class="flex flex-wrap items-center gap-3 mb-5">
-      <button id="addRowBtn" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 active:scale-[.99] transition font-semibold">
-        Add station
-      </button>
-      <button id="rcBtn" class="px-3.5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 active:scale-[.99] transition font-semibold">
-        RC
-      </button>
-      <button id="caBtn" class="px-3.5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 active:scale-[.99] transition font-semibold">
-        CA
-      </button>
-      <button id="plotBtn" class="px-4 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 active:scale-[.99] transition font-semibold">
-        Plot graph
-      </button>
-      <button id="downloadBtn" class="px-4 py-2.5 rounded-xl bg-fuchsia-600 hover:bg-fuchsia-500 active:scale-[.99] transition font-semibold">
-        Download PNG
-      </button>
-      <button id="clearBtn" class="px-4 py-2.5 rounded-xl bg-slate-700 hover:bg-slate-600 active:scale-[.99] transition">
-        Clear table
-      </button>
+<body>
+  <h1>TECH-PE</h1>
 
-      <div class="w-px h-8 bg-white/10 mx-1"></div>
-
-      <!-- Template and font -->
-      <label class="text-sm text-muted">Template</label>
-      <select id="templateSelect" class="bg-black/30 border border-white/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
-        <option value="dark" selected>Dark</option>
-        <option value="light">Light</option>
-        <option value="ocean">Ocean</option>
-        <option value="sunset">Sunset</option>
-        <option value="forest">Forest</option>
-        <option value="mono">Mono</option>
-      </select>
-
-      <label class="text-sm text-muted">Font</label>
-      <select id="fontSelect" class="bg-black/30 border border-white/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
-        <option value="Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial">Inter</option>
-        <option value="Poppins, -apple-system, Segoe UI, Roboto, Helvetica, Arial">Poppins</option>
-        <option value="Roboto, -apple-system, Segoe UI, Helvetica, Arial">Roboto</option>
-        <option value="system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial">System</option>
-        <option value="Lato, -apple-system, Segoe UI, Roboto, Helvetica, Arial">Lato</option>
-        <option value="Nunito, -apple-system, Segoe UI, Roboto, Helvetica, Arial">Nunito</option>
-        <option value="Merriweather, Georgia, 'Times New Roman', serif">Merriweather</option>
-        <option value="Montserrat, -apple-system, Segoe UI, Roboto, Helvetica, Arial">Montserrat</option>
-        <option value="Open Sans, -apple-system, Segoe UI, Roboto, Helvetica, Arial">Open Sans</option>
-      </select>
-
-      <span id="hint" class="text-sm text-muted ml-auto">Tip: Enter Input and Retest to see Retest %.</span>
+  <div class="card">
+    <div class="input-group">
+      <label for="lineName">Line Name:</label>
+      <input type="text" id="lineName" class="stealth-input" placeholder="Enter Line Name" />
     </div>
 
-    <!-- Table Card -->
-    <div id="tableCard" data-role="card" class="backdrop-blur rounded-2xl border p-4 sm:p-5 mb-6">
-      <div class="overflow-auto rounded-xl border" style="border-color: var(--card-border);">
-        <table class="min-w-full text-sm" id="dataTable">
-          <thead class="" style="background: rgba(255,255,255,0.06); color: var(--text-primary);">
-            <tr id="headerRow">
-              <th class="text-left px-4 py-3 font-semibold">Station</th>
-              <th class="text-left px-4 py-3 font-semibold">Input</th>
-              <th class="text-left px-4 py-3 font-semibold">Retest</th>
-              <th class="text-left px-4 py-3 font-semibold">AAB</th>
-              <th class="text-left px-4 py-3 font-semibold">Retest %</th>
-              <th class="text-left px-4 py-3 font-semibold">Actions</th>
+    <div class="template-select">
+      <label for="template">Select Table Template:</label>
+      <select id="template" onchange="changeTemplate(this.value)">
+        <option value="template1">Blue Gradient</option>
+        <option value="template2">Dark Mode</option>
+        <option value="template3">Green Light</option>
+        <option value="template4">Orange Soft</option>
+        <option value="template5">Elegant Gray</option>
+        <option value="template6">Vibrant Pink</option>
+        <option value="template7">Minimalist</option>
+        <option value="template8">Glass Effect</option>
+        <option value="template9">Classic Borders</option>
+        <option value="template10">Shadowed Rows</option>
+      </select>
+    </div>
+
+    <div class="template-select">
+      <label for="font">Select Font:</label>
+      <select id="font" onchange="changeFont(this.value)">
+        <option value="'Inter', sans-serif">Inter</option>
+        <option value="'Roboto', sans-serif">Roboto</option>
+        <option value="'Poppins', sans-serif">Poppins</option>
+        <option value="'Merriweather', serif">Merriweather</option>
+        <option value="'Caveat', cursive">Caveat (Handwriting)</option>
+        <option value="'Patrick Hand', cursive">Patrick Hand</option>
+      </select>
+    </div>
+
+    <button onclick="addStation()">Add Station</button>
+    <button onclick="downloadTableAsImage()">Submit (Download PNG)</button>
+    <button onclick="plotGraph()">Plot Graph</button>
+
+    <div id="tableWrapper" class="theme-template1">
+      <div id="tableContainer">
+        <table id="stationTable">
+          <thead>
+            <tr>
+              <th>Station Name</th>
+              <th>Input</th>
+              <th>Retest</th>
+              <th>AAB</th>
+              <th>Retest %</th>
             </tr>
           </thead>
-          <tbody id="tableBody" class="divide-y" style="border-color: var(--card-border);">
-            <!-- Starts empty by design -->
-          </tbody>
+          <tbody></tbody>
         </table>
       </div>
-      <div id="meta" class="text-xs text-muted mt-3">0 rows • 5 columns</div>
-    </div>
-
-    <!-- Chart Card -->
-    <div id="chartCard" data-role="card" class="backdrop-blur rounded-2xl border p-4 sm:p-5 order-last">
-      <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
-        <h2 class="text-lg font-semibold" style="color: var(--text-primary);">Chart</h2>
-        <div class="flex items-center gap-4 text-xs" style="color: var(--text-muted);">
-          <div class="flex items-center gap-2"><span class="inline-block w-3 h-3 rounded-sm" style="background: var(--input-bar);"></span> Input (LHS)</div>
-          <div class="flex items-center gap-2"><span class="inline-block w-3 h-3 rounded-sm" style="background: var(--retest-bar);"></span> Retest (RHS)</div>
-          <div class="flex items-center gap-2"><span class="inline-block w-3 h-3 rounded-sm" style="background: #f59e0b;"></span> AAB (line)</div>
-          <div class="flex items-center gap-2"><span class="inline-block w-3 h-3 rounded-sm" style="background: transparent; border: 2px solid var(--text-muted);"></span> Labels: % + count</div>
-        </div>
-      </div>
-      <div id="chartArea" class="relative w-full h-[380px] rounded-xl border flex items-center justify-center" style="background: rgba(0,0,0,0.20); border-color: var(--card-border); color: var(--text-muted);">
-        Click "Plot graph" to draw the chart.
-      </div>
+      <canvas id="graphCanvas"></canvas>
     </div>
   </div>
 
   <script>
-    // State
-    const extraColumns = []; // [{key:'rc'|'ca', label:'RC'|'CA'}]
-    const rows = []; // {station:'', input:number|null, retest:number|null, aab:number|string, extras:{}}
+    const table = document.getElementById('stationTable');
+    let chartInstance = null;
 
-    // Elements
-    const tableBody = document.getElementById('tableBody');
-    const headerRow = document.getElementById('headerRow');
-    const meta = document.getElementById('meta');
-    const addRowBtn = document.getElementById('addRowBtn');
-    const rcBtn = document.getElementById('rcBtn');
-    const caBtn = document.getElementById('caBtn');
-    const plotBtn = document.getElementById('plotBtn');
-    const downloadBtn = document.getElementById('downloadBtn');
-    const clearBtn = document.getElementById('clearBtn');
-    const templateSelect = document.getElementById('templateSelect');
-    const fontSelect = document.getElementById('fontSelect');
-    const chartArea = document.getElementById('chartArea');
-    const tableCard = document.getElementById('tableCard');
-    const chartCard = document.getElementById('chartCard');
-
-    // Helpers
-    function computePct(input, retest) {
-      const i = parseFloat(input);
-      const r = parseFloat(retest);
-      if (!isFinite(i) || i <= 0 || !isFinite(r) || r < 0) return NaN;
-      return (r / i) * 100;
-    }
-    function formatPct(n) {
-      if (!isFinite(n)) return '—';
-      if (isNaN(n)) return '—';
-      return (Math.max(0, n)).toFixed(2) + '%';
-    }
-    function updateMeta() {
-      const colCount = 5 + extraColumns.length + 1; // + Actions
-      meta.textContent = `${rows.length} row${rows.length===1?'':'s'} • ${colCount} column${colCount===1?'':'s'}`;
-    }
-    function buildHeaders() {
-      headerRow.innerHTML = `
-        <th class="text-left px-4 py-3 font-semibold">Station</th>
-        <th class="text-left px-4 py-3 font-semibold">Input</th>
-        <th class="text-left px-4 py-3 font-semibold">Retest</th>
-        <th class="text-left px-4 py-3 font-semibold">AAB</th>
+    function addStation() {
+      const tbody = table.querySelector('tbody');
+      const row = tbody.insertRow();
+      row.innerHTML = `
+        <td><input type="text" placeholder="Station Name"></td>
+        <td><input type="number" placeholder="Input" oninput="updateRetestPercent(this)"></td>
+        <td><input type="number" placeholder="Retest" oninput="updateRetestPercent(this)"></td>
+        <td><input type="number" placeholder="AAB"></td>
+        <td><span class="rr">0%</span></td>
       `;
-      extraColumns.forEach(col => {
-        const th = document.createElement('th');
-        th.className = 'text-left px-4 py-3 font-semibold';
-        th.textContent = col.label;
-        headerRow.appendChild(th);
+    }
+
+    function updateRetestPercent(el) {
+      const row = el.closest('tr');
+      const inputs = row.querySelectorAll('input');
+      const inputVal = parseFloat(inputs[1]?.value);
+      const retestVal = parseFloat(inputs[2]?.value);
+      const rrSpan = row.querySelector('.rr');
+
+      if (!isNaN(inputVal) && inputVal > 0 && !isNaN(retestVal)) {
+        const rr = ((retestVal / inputVal) * 100).toFixed(2);
+        rrSpan.innerText = rr + '%';
+      } else {
+        rrSpan.innerText = '0%';
+      }
+    }
+
+    function downloadTableAsImage() {
+      const container = document.querySelector('#tableWrapper');
+      html2canvas(container, { scale: 3, useCORS: true }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'station_table.png';
+        link.href = canvas.toDataURL('image/png');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
       });
-      const thPct = document.createElement('th');
-      thPct.className = 'text-left px-4 py-3 font-semibold';
-      thPct.textContent = 'Retest %';
-      headerRow.appendChild(thPct);
-
-      const thActions = document.createElement('th');
-      thActions.className = 'text-left px-4 py-3 font-semibold';
-      thActions.textContent = 'Actions';
-      headerRow.appendChild(thActions);
     }
-    function pctBar(pct) {
-      const wrap = document.createElement('div');
-      wrap.className = 'min-w-[140px] max-w-[220px]';
-      const val = document.createElement('div');
-      val.className = 'mb-1';
-      val.style.color = 'var(--text-primary)';
-      val.textContent = formatPct(pct);
-      const barWrap = document.createElement('div');
-      barWrap.className = 'w-full h-2 rounded-full';
-      barWrap.style.background = 'rgba(255,255,255,0.1)';
-      const bar = document.createElement('div');
-      bar.className = 'h-full';
-      bar.style.background = '#10b981';
-      bar.style.width = isFinite(pct) ? Math.max(0, Math.min(100, pct)) + '%' : '0%';
-      barWrap.appendChild(bar);
-      wrap.appendChild(val);
-      wrap.appendChild(barWrap);
-      return wrap;
+
+    function changeTemplate(template) {
+      const wrapper = document.getElementById('tableWrapper');
+      wrapper.className = 'theme-' + template;
     }
-    function createNumberInput(value, placeholder, onChange, widthClass='w-36') {
-      const input = document.createElement('input');
-      input.type = 'number';
-      input.min = '0';
-      input.step = 'any';
-      input.value = value ?? '';
-      input.placeholder = placeholder;
-      input.className = `${widthClass} max-w-full bg-black/30 border border-white/10 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500`;
-      input.addEventListener('input', () => onChange(input.value));
-      return input;
+
+    function changeFont(font) {
+      document.body.style.fontFamily = font;
+      document.querySelectorAll('input').forEach(el => {
+        el.style.fontFamily = font;
+      });
     }
-    function renderTable() {
-      buildHeaders();
-      tableBody.innerHTML = '';
 
-      rows.forEach((row, idx) => {
-        const tr = document.createElement('tr');
+    function plotGraph() {
+      const rows = table.querySelectorAll('tbody tr');
+      const labels = [], inputData = [], retestData = [], aabData = [], rrData = [];
 
-        // Station (single word, compact)
-        const tdStation = document.createElement('td');
-        tdStation.className = 'px-4 py-3';
-        const stationInput = document.createElement('input');
-        stationInput.type = 'text';
-        stationInput.value = row.station ?? '';
-        stationInput.placeholder = 'Station';
-        stationInput.className = 'w-32 max-w-full bg-black/30 border border-white/10 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500';
-        stationInput.addEventListener('input', () => { row.station = stationInput.value; });
-        tdStation.appendChild(stationInput);
-        tr.appendChild(tdStation);
+      rows.forEach(row => {
+        const inputs = row.querySelectorAll('input');
+        const station = inputs[0]?.value.trim();
+        const input = parseFloat(inputs[1]?.value) || 0;
+        const retest = parseFloat(inputs[2]?.value) || 0;
+        const aab = parseFloat(inputs[3]?.value) || 0;
 
-        // Input
-        const tdInput = document.createElement('td');
-        tdInput.className = 'px-4 py-3';
-        tdInput.appendChild(createNumberInput(row.input, 'Input', (v) => {
-          row.input = v === '' ? null : parseFloat(v);
-          refreshPctCell(tr, row);
-        }));
-        tr.appendChild(tdInput);
+        if (!station || input === 0) return;
 
-        // Retest
-        const tdRetest = document.createElement('td');
-        tdRetest.className = 'px-4 py-3';
-        tdRetest.appendChild(createNumberInput(row.retest, 'Retest', (v) => {
-          row.retest = v === '' ? null : parseFloat(v);
-          refreshPctCell(tr, row);
-        }));
-        tr.appendChild(tdRetest);
+        const rr = ((retest / input) * 100).toFixed(2);
 
-        // AAB (count, compact)
-        const tdAab = document.createElement('td');
-        tdAab.className = 'px-4 py-3';
-        const aabInput = createNumberInput(row.aab, 'AAB', (v)=>{ row.aab = v; }, 'w-24');
-        aabInput.step = '1';
-        tdAab.appendChild(aabInput);
-        tr.appendChild(tdAab);
-
-        // RC/CA extras (multi-line)
-        if (!row.extras) row.extras = {};
-        extraColumns.forEach(col => {
-          const td = document.createElement('td');
-          td.className = 'px-4 py-3 align-top';
-          const textarea = document.createElement('textarea');
-          textarea.placeholder = col.label;
-          textarea.value = row.extras[col.key] ?? '';
-          textarea.rows = 3;
-          textarea.className = 'w-72 max-w-full bg-black/30 border border-white/10 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 whitespace-pre-wrap';
-          textarea.addEventListener('input', () => { row.extras[col.key] = textarea.value; });
-          td.appendChild(textarea);
-          tr.appendChild(td);
-        });
-
-        // Retest %
-        const tdPct = document.createElement('td');
-        tdPct.className = 'px-4 py-3';
-        tdPct.dataset.role = 'pct';
-        tdPct.appendChild(pctBar(computePct(row.input, row.retest)));
-        tr.appendChild(tdPct);
-
-        // Actions (row delete)
-        const tdActions = document.createElement('td');
-        tdActions.className = 'px-4 py-3';
-        const delBtn = document.createElement('button');
-        delBtn.textContent = 'Delete';
-        delBtn.className = 'px-3 py-1.5 rounded-lg bg-rose-600/90 hover:bg-rose-500 transition text-white text-xs';
-        delBtn.addEventListener('click', () => { rows.splice(idx, 1); renderTable(); });
-        tdActions.appendChild(delBtn);
-        tr.appendChild(tdActions);
-
-        tableBody.appendChild(tr);
+        labels.push(station);
+        inputData.push(input);
+        retestData.push(retest);
+        aabData.push(aab);
+        rrData.push(rr);
       });
 
-      updateMeta();
-    }
-    function refreshPctCell(tr, row) {
-      const pctTd = tr.querySelector('td[data-role="pct"]');
-      if (!pctTd) return;
-      pctTd.innerHTML = '';
-      pctTd.appendChild(pctBar(computePct(row.input, row.retest)));
-    }
+      if (labels.length === 0) return alert("Please enter valid station data before plotting.");
 
-    // Chart
-    function drawChart(forExport = false) {
-      const stations = rows.map(r => r.station || '—');
-      const inputs = rows.map(r => Number(r.input) || 0);
-      const retests = rows.map(r => Number(r.retest) || 0);
-      const aabs = rows.map(r => Number(r.aab) || 0);
-      const pcts = rows.map(r => {
-        const pct = (Number(r.input) > 0 && Number(r.retest) >= 0) ? (Number(r.retest)/Number(r.input))*100 : NaN;
-        return isFinite(pct) ? +(pct.toFixed(2)) : NaN;
+      const ctx = document.getElementById('graphCanvas').getContext('2d');
+      if (chartInstance) chartInstance.destroy();
+
+      // Register the plugin globally (only once)
+      if (Chart.registry.plugins.getAll().filter(p => p.id === 'datalabels').length === 0) {
+        Chart.register(ChartDataLabels);
+      }
+
+      chartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [
+            { 
+              label: 'Input', 
+              data: inputData, 
+              backgroundColor: '#3b82f6',
+              borderColor: '#1d4ed8',
+              borderWidth: 1
+            },
+            { 
+              label: 'Retest', 
+              data: retestData, 
+              backgroundColor: '#f59e0b',
+              borderColor: '#d97706',
+              borderWidth: 1,
+              datalabels: {
+                display: true,
+                anchor: 'end',
+                align: 'top',
+                formatter: (value, ctx) => {
+                  const index = ctx.dataIndex;
+                  return rrData[index] + '%';
+                },
+                color: '#000',
+                font: {
+                  weight: 'bold',
+                  size: 12
+                }
+              }
+            },
+            { 
+              label: 'AAB', 
+              data: aabData, 
+              backgroundColor: '#10b981',
+              borderColor: '#059669',
+              borderWidth: 1
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top',
+            },
+            tooltip: {
+              callbacks: {
+                afterBody: function(context) {
+                  const index = context[0].dataIndex;
+                  return `Retest %: ${rrData[index]}%`;
+                }
+              }
+            },
+            datalabels: {
+              display: false
+            }
+          },
+          scales: {
+            x: {
+              grid: {
+                display: false
+              }
+            },
+            y: { 
+              beginAtZero: true, 
+              title: { 
+                display: true, 
+                text: 'Count' 
+              },
+              grid: {
+                drawBorder: false
+              }
+            }
+          }
+        },
+        plugins: [ChartDataLabels]
       });
-
-      chartArea.innerHTML = '';
-      if (!stations.length) { chartArea.textContent = 'No data to plot. Add stations first.'; return; }
-
-      const W = chartArea.clientWidth || 800;
-      const H = chartArea.clientHeight || 380;
-      const margin = { top: 34, right: 72, bottom: forExport ? 88 : 64, left: 72 };
-      const innerW = W - margin.left - margin.right;
-      const innerH = H - margin.top - margin.bottom;
-      const svgNS = 'http://www.w3.org/2000/svg';
-
-      const svg = document.createElementNS(svgNS, 'svg');
-      svg.setAttribute('width', W);
-      svg.setAttribute('height', H);
-      chartArea.appendChild(svg);
-
-      const g = document.createElementNS(svgNS, 'g');
-      g.setAttribute('transform', `translate(${margin.left},${margin.top})`);
-      svg.appendChild(g);
-
-      // Scales
-      const maxInput = Math.max(1, ...inputs);
-      const maxRetest = Math.max(1, ...retests);
-      const xStep = innerW / Math.max(1, stations.length);
-      const barW = Math.max(6, xStep * 0.48);
-      const yL = v => innerH - (v / maxInput) * innerH; // left axis
-      const yR = v => innerH - (v / maxRetest) * innerH; // right axis
-
-      // Grid
-      for (let i=0;i<=5;i++) {
-        const y = (innerH/5)*i;
-        const line = document.createElementNS(svgNS, 'line');
-        line.setAttribute('x1', 0); line.setAttribute('x2', innerW);
-        line.setAttribute('y1', y); line.setAttribute('y2', y);
-        line.setAttribute('stroke', getComputedStyle(document.body).getPropertyValue('--grid-line') || 'rgba(255,255,255,0.12)');
-        g.appendChild(line);
-      }
-
-      // Axis labels
-      const textColor = getComputedStyle(document.body).getPropertyValue('--text-primary') || '#e5e7eb';
-      const mutedColor = getComputedStyle(document.body).getPropertyValue('--text-muted') || '#94a3b8';
-
-      const lLabel = document.createElementNS(svgNS, 'text');
-      lLabel.setAttribute('x', -52); lLabel.setAttribute('y', -10);
-      lLabel.setAttribute('fill', textColor); lLabel.setAttribute('font-size', '12');
-      lLabel.textContent = 'Input (LHS)'; g.appendChild(lLabel);
-      const rLabel = document.createElementNS(svgNS, 'text');
-      rLabel.setAttribute('x', innerW + 10); rLabel.setAttribute('y', -10);
-      rLabel.setAttribute('fill', textColor); rLabel.setAttribute('font-size', '12');
-      rLabel.textContent = 'Retest (RHS)'; g.appendChild(rLabel);
-
-      // Bars + labels
-      const inputColor = getComputedStyle(document.body).getPropertyValue('--input-bar').trim() || '#14b8a6';
-      const retestColor = getComputedStyle(document.body).getPropertyValue('--retest-bar').trim() || '#60a5fa';
-
-      stations.forEach((s, i) => {
-        const x = xStep*i + (xStep - barW)/2;
-
-        // Input bar
-        const yI = yL(inputs[i]);
-        const hI = innerH - yI;
-        const barI = document.createElementNS(svgNS, 'rect');
-        barI.setAttribute('x', x - barW*0.55);
-        barI.setAttribute('y', yI);
-        barI.setAttribute('width', barW*0.5);
-        barI.setAttribute('height', Math.max(0,hI));
-        barI.setAttribute('rx', '6');
-        barI.setAttribute('fill', inputColor);
-        barI.setAttribute('opacity', '0.9');
-        g.appendChild(barI);
-
-        // Retest bar
-        const yRVal = yR(retests[i]);
-        const hR = innerH - yRVal;
-        const barR = document.createElementNS(svgNS, 'rect');
-        barR.setAttribute('x', x + barW*0.05);
-        barR.setAttribute('y', yRVal);
-        barR.setAttribute('width', barW*0.5);
-        barR.setAttribute('height', Math.max(0,hR));
-        barR.setAttribute('rx', '6');
-        barR.setAttribute('fill', retestColor);
-        barR.setAttribute('opacity', '0.9');
-        g.appendChild(barR);
-        // Retest % and count stacked above the retest bar
-        const pct = pcts[i];
-        const pctLabel = document.createElementNS(svgNS, 'text');
-        pctLabel.setAttribute('x', x + barW*0.3);
-        pctLabel.setAttribute('y', Math.max(18, yRVal - (forExport ? 28 : 18)));
-        pctLabel.setAttribute('text-anchor', 'middle');
-        pctLabel.setAttribute('fill', textColor);
-        pctLabel.setAttribute('font-size', forExport ? '14' : '12');
-        pctLabel.setAttribute('font-weight', '600');
-        pctLabel.textContent = isFinite(pct) ? pct + '%' : '';
-        const cntLabel = document.createElementNS(svgNS, 'text');
-        cntLabel.setAttribute('x', x + barW*0.3);
-        cntLabel.setAttribute('y', Math.max(16, yRVal - (forExport ? 12 : 2)));
-        cntLabel.setAttribute('text-anchor', 'middle');
-        cntLabel.setAttribute('fill', mutedColor);
-        cntLabel.setAttribute('font-size', forExport ? '13' : '11');
-        cntLabel.textContent = isFinite(retests[i]) ? retests[i] : '';
-
-        g.appendChild(pctLabel);
-        g.appendChild(cntLabel);
-
-        // X label
-        const xlab = document.createElementNS(svgNS, 'text');
-        xlab.setAttribute('x', x + barW*0.0);
-        xlab.setAttribute('y', innerH + (forExport ? 28 : 18));
-        xlab.setAttribute('text-anchor', 'middle');
-        xlab.setAttribute('fill', mutedColor);
-        xlab.setAttribute('font-size', forExport ? '14' : '12');
-        
-        xlab.textContent = (s||'').toString();
-        // Wrap long station names across lines
-        const maxChars = forExport ? 16 : 12;
-        if (xlab.textContent.length > maxChars) {
-          const first = xlab.textContent.slice(0, maxChars);
-          const second = xlab.textContent.slice(maxChars);
-          xlab.textContent = first;
-          const xlab2 = document.createElementNS(svgNS, 'text');
-          xlab2.setAttribute('x', x + barW*0.0);
-          xlab2.setAttribute('y', innerH + (forExport ? 44 : 32));
-          xlab2.setAttribute('text-anchor', 'middle');
-          xlab2.setAttribute('fill', mutedColor);
-          xlab2.setAttribute('font-size', forExport ? '14' : '12');
-          xlab2.textContent = second;
-          g.appendChild(xlab2);
-        }
-        g.appendChild(xlab);
-      });
-      
-      // Left ticks
-      for (let i=0;i<=5;i++){
-        const v = Math.round((Math.max(1, ...inputs)/5)*i);
-        const y = innerH - (v/Math.max(1, ...inputs))*innerH;
-        const t = document.createElementNS(svgNS, 'text');
-        t.setAttribute('x', -10); t.setAttribute('y', y+4);
-        t.setAttribute('text-anchor','end'); t.setAttribute('fill', mutedColor);
-        t.setAttribute('font-size','11'); t.textContent = v;
-        g.appendChild(t);
-      }
-      // Right ticks
-      for (let i=0;i<=5;i++){
-        const v = Math.round((Math.max(1, ...retests)/5)*i);
-        const y = innerH - (v/Math.max(1, ...retests))*innerH;
-        const t = document.createElementNS(svgNS, 'text');
-        t.setAttribute('x', innerW + 10); t.setAttribute('y', y+4);
-        t.setAttribute('fill', mutedColor); t.setAttribute('font-size','11');
-        t.textContent = v;
-        g.appendChild(t);
-      }
-      
-      // AAB as a line over left axis for reference
-      if (aabs.some(v => v>0)) {
-        const path = document.createElementNS(svgNS, 'path');
-        let d = '';
-        for (let i=0;i<stations.length;i++){
-          const x = xStep*i + xStep/2;
-          const y = yL(aabs[i]);
-          d += (i===0?'M':'L') + x + ' ' + y + ' ';
-        }
-        path.setAttribute('d', d.trim());
-        path.setAttribute('fill', 'none');
-        path.setAttribute('stroke', '#f59e0b'); // amber
-        path.setAttribute('stroke-width', '2.5');
-        svg.appendChild(g);
-        g.appendChild(path);
-      }
     }
-    
-    // PNG Download (table + chart stacked)
-    async function downloadPNG() {
-      // Ensure chart exists in high-res export mode
-      drawChart(true);
-
-      // Temporarily expand table to show all content (no scroll clipping)
-      const scrollBox = tableCard.querySelector('.overflow-auto');
-      const prevOverflow = scrollBox.style.overflow;
-      const prevMaxHeight = scrollBox.style.maxHeight;
-      scrollBox.style.overflow = 'visible';
-      scrollBox.style.maxHeight = 'none';
-
-      const options = { backgroundColor: '#ffffff', scale: 3, useCORS: true, windowWidth: document.documentElement.scrollWidth };
-      const tableCanvas = await html2canvas(tableCard, options);
-      const chartCanvas = await html2canvas(chartCard, options);
-
-      // Restore table scroll styles
-      scrollBox.style.overflow = prevOverflow;
-      scrollBox.style.maxHeight = prevMaxHeight;
-      
-      const gap = 32;
-      const width = Math.max(tableCanvas.width, chartCanvas.width);
-      const height = tableCanvas.height + gap + chartCanvas.height;
-
-      const combined = document.createElement('canvas');
-      combined.width = width;
-      combined.height = height;
-      const ctx = combined.getContext('2d');
-
-      // Background
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0,0,width,height);
-
-      // Center each canvas
-      const tX = (width - tableCanvas.width)/2;
-      const cX = (width - chartCanvas.width)/2;
-      ctx.drawImage(tableCanvas, tX, 0);
-      ctx.drawImage(chartCanvas, cX, tableCanvas.height + gap);
-      const link = document.createElement('a');
-      link.download = 'retest_table_chart.png';
-      link.href = combined.toDataURL('image/png');
-      link.click();
-    }
-
-    // Actions
-    addRowBtn.addEventListener('click', () => {
-      rows.push({ station: '', input: null, retest: null, aab: '', extras: {} });
-      renderTable();
-    });
-    rcBtn.addEventListener('click', () => {
-      if (!extraColumns.find(c => c.key === 'rc')) {
-        extraColumns.push({ key: 'rc', label: 'RC' });
-        rows.forEach(r => { if (!r.extras) r.extras = {}; r.extras.rc = r.extras.rc ?? ''; });
-        renderTable();
-      }
-    });
-    
-    caBtn.addEventListener('click', () => {
-      if (!extraColumns.find(c => c.key === 'ca')) {
-        extraColumns.push({ key: 'ca', label: 'CA' });
-        rows.forEach(r => { if (!r.extras) r.extras = {}; r.extras.ca = r.extras.ca ?? ''; });
-        renderTable();
-      }
-    });
-    plotBtn.addEventListener('click', () => drawChart(false));
-    downloadBtn.addEventListener('click', downloadPNG);
-    clearBtn.addEventListener('click', () => {
-      rows.length = 0;
-      renderTable();
-      chartArea.textContent = 'Click "Plot graph" to draw the chart.';
-    });
-    
-    // Template and font handlers
-    function applyTheme(theme) {
-      document.body.classList.remove('theme-dark','theme-light','theme-ocean','theme-sunset','theme-forest','theme-mono');
-      document.body.classList.add('theme-' + theme);
-      renderTable();
-      if (chartArea) drawChart();
-    }
-    templateSelect.addEventListener('change', (e) => {
-      applyTheme(e.target.value);
-    });
-    fontSelect.addEventListener('change', (e) => {
-      document.body.style.fontFamily = e.target.value + ', sans-serif';
-    });
-
-    // Initial render and theme
-    document.body.classList.add('theme-dark');
-    renderTable();
   </script>
-  
-  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97078a65e3209361',t:'MTc1NTQxNjYwOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();
-  
-  </script></body>
-  </html>
+</body>
+</html>
