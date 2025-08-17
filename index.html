@@ -277,10 +277,33 @@
       const ctx = document.getElementById('graphCanvas').getContext('2d');
       if (chartInstance) chartInstance.destroy();
 
-      // Register the plugin globally (only once)
-      if (Chart.registry.plugins.getAll().filter(p => p.id === 'datalabels').length === 0) {
-        Chart.register(ChartDataLabels);
-      }
+      // Register plugin to draw vertical text inside bars
+      const verticalTextPlugin = {
+        id: 'verticalText',
+        afterDatasetsDraw(chart, args, options) {
+          const {ctx, data, chartArea: {top, bottom, left, right, width, height}, scales: {x, y}} = chart;
+          
+          ctx.save();
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.font = 'bold 12px Arial';
+          
+          chart.getDatasetMeta(1).data.forEach((bar, index) => {
+            if (data.datasets[1].data[index] > 0) {
+              const xPos = bar.x;
+              const yPos = bar.y + 15; // Position inside the bar
+              const percentage = rrData[index] + '%';
+              
+              // Rotate and draw text
+              ctx.save();
+              ctx.translate(xPos, yPos);
+              ctx.rotate(-Math.PI/2); // 90 degrees counter-clockwise
+              ctx.fillText(percentage, 0, 0);
+              ctx.restore();
+            }
+          });
+        }
+      };
 
       chartInstance = new Chart(ctx, {
         type: 'bar',
@@ -292,7 +315,8 @@
               data: inputData, 
               backgroundColor: '#3b82f6',
               borderColor: '#1d4ed8',
-              borderWidth: 1
+              borderWidth: 1,
+              yAxisID: 'y'
             },
             { 
               label: 'Retest', 
@@ -300,27 +324,15 @@
               backgroundColor: '#f59e0b',
               borderColor: '#d97706',
               borderWidth: 1,
-              datalabels: {
-                display: true,
-                anchor: 'end',
-                align: 'top',
-                formatter: (value, ctx) => {
-                  const index = ctx.dataIndex;
-                  return rrData[index] + '%';
-                },
-                color: '#000',
-                font: {
-                  weight: 'bold',
-                  size: 12
-                }
-              }
+              yAxisID: 'y1'
             },
             { 
               label: 'AAB', 
               data: aabData, 
               backgroundColor: '#10b981',
               borderColor: '#059669',
-              borderWidth: 1
+              borderWidth: 1,
+              yAxisID: 'y'
             }
           ]
         },
@@ -337,30 +349,39 @@
                   return `Retest %: ${rrData[index]}%`;
                 }
               }
-            },
-            datalabels: {
-              display: false
             }
           },
           scales: {
+            y: { 
+              beginAtZero: true, 
+              position: 'left',
+              title: { 
+                display: true, 
+                text: 'Input/AAB Count' 
+              },
+              grid: {
+                drawOnChartArea: true
+              }
+            },
+            y1: {
+              beginAtZero: true,
+              position: 'right',
+              title: {
+                display: true,
+                text: 'Retest Count'
+              },
+              grid: {
+                drawOnChartArea: false
+              }
+            },
             x: {
               grid: {
                 display: false
               }
-            },
-            y: { 
-              beginAtZero: true, 
-              title: { 
-                display: true, 
-                text: 'Count' 
-              },
-              grid: {
-                drawBorder: false
-              }
             }
           }
         },
-        plugins: [ChartDataLabels]
+        plugins: [verticalTextPlugin]
       });
     }
   </script>
