@@ -333,11 +333,23 @@ function plotGraph(){
   });
 }
 
-function updateDateShift(){
-  const lineValue = document.getElementById('lineName').value.trim() || "-";
-  document.getElementById('lineIdText').innerText = ` ${lineValue}`;
-  document.getElementById('currentDateShift').innerText = getCurrentDateShift();
+function updateDateShift() {
+    const shift = document.getElementById("shiftSelect").value;
+    let date = new Date();
+
+    // If shift is C, subtract one day
+    if (shift === "C") {
+        date.setDate(date.getDate() - 1);
+    }
+
+    const formattedDate = date.toISOString().split('T')[0]; // YYYY-MM-DD
+    document.getElementById("dateShift").innerText = `Date: ${formattedDate} — Shift: ${shift}`;
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    updateDateShift();
+    document.getElementById("shiftSelect").addEventListener("change", updateDateShift);
+});
 function getCurrentDateShift(){
   const today = new Date();
   const dateStr = today.toLocaleDateString('en-GB'); // dd/mm/yyyy
