@@ -251,16 +251,35 @@ function deleteAABColumn(){
 }
 
 function downloadTableAsImage(){
-  const card = document.querySelector('.card');
-  html2canvas(card,{scale:3,useCORS:true}).then(canvas=>{
-    const link=document.createElement('a');
-    link.download='TECH-PE_retest.png';
-    link.href=canvas.toDataURL('image/png');
-    document.body.appendChild(link); link.click(); document.body.removeChild(link);
+  const tableContainer = document.querySelector('.table-container');
+  const canvasGraph = document.getElementById('graphCanvas');
+
+  // Create a temporary container to include both table and graph
+  const tempDiv = document.createElement('div');
+  tempDiv.style.background = "#fff"; // optional: white background
+  tempDiv.style.padding = "20px";
+  tempDiv.appendChild(tableContainer.cloneNode(true));
+  
+  // Clone the graph canvas
+  const clonedCanvas = canvasGraph.cloneNode(true);
+  const ctx = clonedCanvas.getContext('2d');
+  // Redraw the chart on cloned canvas
+  ctx.drawImage(canvasGraph, 0, 0);
+  tempDiv.appendChild(clonedCanvas);
+
+  // Use html2canvas
+  html2canvas(tempDiv, {scale:3, useCORS:true}).then(canvas=>{
+    const link = document.createElement('a');
+    link.download = 'TECH-PE_dashboard.png';
+    link.href = canvas.toDataURL('image/png');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }).catch(err=>{
     console.error("html2canvas error:", err);
   });
 }
+  
 
 function plotGraph(){
   const rows = table.querySelectorAll('tbody tr');
