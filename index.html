@@ -10,7 +10,7 @@
 <style>
 body {
   margin: 0;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Patrick Hand', cursive;  /* ✅ Default font changed */
   background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
   display: flex;
   justify-content: center;
@@ -23,7 +23,7 @@ h1 { text-align: center; font-size: 2.2rem; font-weight: 700; margin-bottom: 30p
 .card:hover { transform: translateY(-5px); }
 .input-group, .template-select { display: flex; flex-direction: column; margin-bottom: 20px; }
 label { font-weight: 600; margin-bottom: 6px; font-size: 0.9rem; }
-input, select { padding: 10px; border-radius: 12px; border: 1px solid #ccc; font-size: 0.9rem; transition: all 0.3s; }
+input, select { padding: 10px; border-radius: 12px; border: 1px solid #ccc; font-size: 0.9rem; transition: all 0.3s; font-family: 'Patrick Hand', cursive; } /* ✅ ensure inputs inherit default font */
 input:focus, select:focus { border-color: #4f46e5; box-shadow: 0 0 8px rgba(79,70,229,0.3); outline: none; }
 .buttons { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; justify-content: flex-start; }
 button { padding: 10px 16px; border: none; border-radius: 12px; cursor: pointer; font-weight: 600; background: #4f46e5; color: #fff; transition: all 0.3s; font-size: 0.9rem; }
@@ -32,10 +32,10 @@ button:hover { background: #3730a3; transform: translateY(-2px); }
 .summary-card { flex: 1; min-width: 150px; background: #ffffffaa; backdrop-filter: blur(8px); padding: 20px; border-radius: 16px; text-align: center; font-weight: 600; font-size: 1rem; box-shadow: 0 8px 20px rgba(0,0,0,0.1); transition: transform 0.3s; }
 .summary-card:hover { transform: translateY(-5px); }
 .table-container { width: 100%; border-radius: 16px; border: 1px solid #ccc; overflow: hidden; margin-bottom: 20px; }
-table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 10px; table-layout: fixed; font-size: 0.85rem; }
+table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 10px; table-layout: fixed; font-size: 0.85rem; font-family: 'Patrick Hand', cursive; } /* ✅ table font */
 th, td { text-align: center; padding: 10px; border-bottom: 1px solid #ddd; border-radius: 0; }
 td { background: #fff; border-radius: 8px; margin: 2px; transition: background 0.3s; }
-td input { background: transparent; border: none; width: 100%; font-size: 0.85rem; text-align: center; padding: 4px 0; }
+td input { background: transparent; border: none; width: 100%; font-size: 0.85rem; text-align: center; padding: 4px 0; font-family: 'Patrick Hand', cursive; } /* ✅ input font */
 canvas { margin-top: 30px; background: #ffffffaa; border-radius: 20px; padding: 20px; box-shadow: 0 12px 30px rgba(0,0,0,0.15); }
 @media(max-width:768px){
   table, th, td { font-size: 0.75rem; padding: 6px; }
@@ -48,7 +48,7 @@ canvas { margin-top: 30px; background: #ffffffaa; border-radius: 20px; padding: 
 .table-theme-2 th { background:#F97316; color:#fff; } .table-theme-2 td { background:#FFF7ED; }
 .table-theme-3 th { background:#059669; color:#fff; } .table-theme-3 td { background:#D1FAE5; }
 .table-theme-4 th { background:#DC2626; color:#fff; } .table-theme-4 td { background:#FEE2E2; }
-.table-theme-5 th { background:#0EA5E9; color:#fff; } .table-theme-5 td { background:#E0F2FE; }
+.table-theme-5 th { background:#0EA5E9; color:#fff; } .table-theme-5 td { background:#E0F2FE; }  /* ✅ Sky Blue */
 .table-theme-6 th { background:#7C3AED; color:#fff; } .table-theme-6 td { background:#EDE9FE; }
 .table-theme-7 th { background:#EC4899; color:#fff; } .table-theme-7 td { background:#FCE7F3; }
 .table-theme-8 th { background:#F59E0B; color:#fff; } .table-theme-8 td { background:#FFFAEB; }
@@ -56,11 +56,11 @@ canvas { margin-top: 30px; background: #ffffffaa; border-radius: 20px; padding: 
 .table-theme-10 th { background:#14B8A6; color:#fff; } .table-theme-10 td { background:#D1FAFA; }
 
 /* Editable header styling for Station Name */
-#stationTable th:first-child { 
-  font-weight: 600; 
-  font-size: 0.80rem; 
-  cursor: text; 
-  white-space: normal; 
+#stationTable th:first-child {
+  font-weight: 600;
+  font-size: 0.80rem;
+  cursor: text;
+  white-space: normal;
   line-height: 1.2;
 }
 </style>
@@ -93,7 +93,7 @@ canvas { margin-top: 30px; background: #ffffffaa; border-radius: 20px; padding: 
 <option value='Roboto, sans-serif'>Roboto</option>
 <option value='Merriweather, serif'>Merriweather</option>
 <option value='Caveat, cursive'>Caveat</option>
-<option value='Patrick Hand, cursive'>Patrick Hand</option>
+<option value='Patrick Hand, cursive' selected>Patrick Hand</option> <!-- ✅ Default -->
 <option value='Ubuntu, sans-serif'>Ubuntu</option>
 <option value='Lato, sans-serif'>Lato</option>
 <option value='Montserrat, sans-serif'>Montserrat</option>
@@ -109,7 +109,7 @@ canvas { margin-top: 30px; background: #ffffffaa; border-radius: 20px; padding: 
 <option value='2'>Sunny Orange</option>
 <option value='3'>Emerald Green</option>
 <option value='4'>Crimson Red</option>
-<option value='5'>Sky Blue</option>
+<option value='5' selected>Sky Blue</option> <!-- ✅ Preselected -->
 <option value='6'>Purple Haze</option>
 <option value='7'>Pink Blossom</option>
 <option value='8'>Tangerine</option>
@@ -134,12 +134,11 @@ canvas { margin-top: 30px; background: #ffffffaa; border-radius: 20px; padding: 
 
 <div class="table-container">
 <h2 id="lineIdTitle" style="text-align:center; margin-bottom:10px; color:#111;">
-  <span id="lineIdText" style="font-weight:700; font-size:1.2rem;"> </span><br>
+  <span id="lineIdText" style="font-weight:700; font-size:1.2rem;">Line</span><br>
   <span id="currentDateShift" style="font-weight:400; font-size:0.9rem;"></span>
 </h2>
 
-
-<table id="stationTable">
+<table id="stationTable" class="table-theme-5"> <!-- ✅ Sky Blue theme applied -->
 <thead>
 <tr>
 <th contenteditable="true">Station<br>Name</th>
@@ -187,9 +186,6 @@ function changeTableTheme(themeNumber){
   if(themeNumber!=='0') table.classList.add(`table-theme-${themeNumber}`);
 }
 
-// Line Id update
-document.getElementById('lineName').addEventListener('input', updateDateShift);
-
 // Retest %
 function updateRetestPercent(el){
   const row = el.closest('tr');
@@ -217,7 +213,6 @@ function updateSummary(){
   document.getElementById('avgRetest').innerText = 'Average Retest %: ' + avgRetestPercent + '%';
   document.getElementById('totalYield').innerText = 'Total Yield: ' + (100 - avgRetestPercent) + '%';
 }
-
 
 function clearTable(){
   const rows = table.querySelectorAll('tbody tr');
@@ -255,19 +250,14 @@ function downloadTableAsImage(){
   const tableContainer = document.querySelector('.table-container');
   const chartCanvas = document.getElementById('graphCanvas');
 
-  // Create temporary container
   const tempDiv = document.createElement('div');
   tempDiv.style.background = "#fff";
   tempDiv.style.padding = "20px";
   tempDiv.style.display = "inline-block";
 
-  // Clone the table and append
   tempDiv.appendChild(tableContainer.cloneNode(true));
-
-  // Append the actual chart canvas directly
   tempDiv.appendChild(chartCanvas);
 
-  // Append to body temporarily for rendering
   document.body.appendChild(tempDiv);
 
   html2canvas(tempDiv, {scale:3, useCORS:true}).then(canvas=>{
@@ -275,15 +265,12 @@ function downloadTableAsImage(){
     link.download = 'TECH-PE_dashboard.png';
     link.href = canvas.toDataURL('image/png');
     link.click();
-
-    document.body.removeChild(tempDiv); // cleanup
+    document.body.removeChild(tempDiv);
   }).catch(err=>{
     console.error("html2canvas error:", err);
-    document.body.removeChild(tempDiv); // cleanup even on error
+    document.body.removeChild(tempDiv);
   });
 }
-  
-  
 
 function plotGraph(){
   const rows = table.querySelectorAll('tbody tr');
@@ -334,8 +321,10 @@ function plotGraph(){
   });
 }
 
+// ✅ FIXED FUNCTION
 function updateDateShift() {
     const shift = document.getElementById("shiftSelect").value;
+    const lineName = document.getElementById("lineName").value || "-"; // default if empty
     let date = new Date();
 
     // If shift is C, subtract one day
@@ -343,24 +332,24 @@ function updateDateShift() {
         date.setDate(date.getDate() - 1);
     }
 
-    const formattedDate = date.toISOString().split('T')[0]; // YYYY-MM-DD
-    document.getElementById("dateShift").innerText = `Date: ${formattedDate} — Shift: ${shift}`;
+    // Format date as DD/MM/YYYY
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    const formattedDate = `${day}/${month}/${year}`;
+
+    // Update line id and date-shift
+    document.getElementById("lineIdText").innerText = ` ${lineName}`;
+    document.getElementById("currentDateShift").innerText = `${formattedDate} | Shift: ${shift}`;
 }
 
+
+// Init
 document.addEventListener("DOMContentLoaded", () => {
-    updateDateShift();
-    document.getElementById("shiftSelect").addEventListener("change", updateDateShift);
+  updateDateShift();
+  document.getElementById("shiftSelect").addEventListener("change", updateDateShift);
+  document.getElementById("lineName").addEventListener("input", updateDateShift);
 });
-function getCurrentDateShift(){
-  const today = new Date();
-  const dateStr = today.toLocaleDateString('en-GB'); // dd/mm/yyyy
-  const shift = document.getElementById('shiftSelect').value;
-  return `Date: ${dateStr} | Shift: ${shift}`;
-}
-
-
-updateSummary();
-updateDateShift();
 </script>
 </body>
 </html>
